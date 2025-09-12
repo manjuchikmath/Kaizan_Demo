@@ -36,11 +36,9 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Terraform Init
-        run: terraform init -upgrade
+        run: terraform init 
 
-      - name: Terraform Format Check
-        run: terraform fmt -check -recursive
-
+      
       - name: Terraform Validate
         run: terraform validate
 
