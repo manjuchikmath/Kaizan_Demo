@@ -116,7 +116,7 @@ data "aws_iam_policy_document" "landing_zone_inline" {
     actions = ["s3:GetObject", "s3:ListBucket"]
     resources = [
       aws_s3_bucket.config.arn,
-      "${aws_s3_bucket.config.arn}/*"
+      
     ]
   }
 }
