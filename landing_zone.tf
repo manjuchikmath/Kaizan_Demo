@@ -92,50 +92,6 @@ resource "aws_s3_bucket_versioning" "logging_ver" {
   versioning_configuration { status = "Enabled" }
 }
 
-resource "aws_s3_bucket_server_side_encryption_configuration" "logging_sse" {
-  bucket = aws_s3_bucket.logging.id
-  rule { apply_server_side_encryption_by_default { sse_algorithm = "AES256" } }
-}
-
-resource "aws_s3_bucket_lifecycle_configuration" "logging_lc" {
-  bucket = aws_s3_bucket.logging.id
-  rule {
-    id     = "expire-logs-after-365d"
-    status = "Enabled"
-    expiration { days = 365 }
-  }
-}
-
-# ---------- S3 Config Bucket (logs to logging bucket) ----------
-resource "aws_s3_bucket" "config" {
-  bucket = "landing-zone-config-${local.s3_suffix}"
-  tags   = { Name = "landing-zone-config-bucket" }
-}
-
-resource "aws_s3_bucket_public_access_block" "config_pab" {
-  bucket                  = aws_s3_bucket.config.id
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-}
-
-resource "aws_s3_bucket_versioning" "config_ver" {
-  bucket = aws_s3_bucket.config.id
-  versioning_configuration { status = "Enabled" }
-}
-
-resource "aws_s3_bucket_server_side_encryption_configuration" "config_sse" {
-  bucket = aws_s3_bucket.config.id
-  rule { apply_server_side_encryption_by_default { sse_algorithm = "AES256" } }
-}
-
-resource "aws_s3_bucket_logging" "config_logging" {
-  bucket        = aws_s3_bucket.config.id
-  target_bucket = aws_s3_bucket.logging.id
-  target_prefix = "config-bucket-access-logs/"
-}
-
 # ---------- IAM Role for EC2 (example) ----------
 data "aws_iam_policy_document" "ec2_assume_role" {
   statement {
