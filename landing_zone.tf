@@ -108,7 +108,7 @@ resource "aws_iam_role" "landing_zone_role" {
   assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
   tags               = { Name = "LandingZoneRole" }
 }
-
+/*
 data "aws_iam_policy_document" "landing_zone_inline" {
   statement {
     sid     = "S3ReadConfig"
@@ -126,3 +126,4 @@ resource "aws_iam_role_policy" "landing_zone_policy" {
   role   = aws_iam_role.landing_zone_role.id
   policy = data.aws_iam_policy_document.landing_zone_inline.json
 }
+*/
