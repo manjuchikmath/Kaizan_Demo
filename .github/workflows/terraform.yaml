@@ -46,6 +46,11 @@ jobs:
         if: github.event_name == 'pull_request'
         run: terraform plan -no-color
 
-      - name: Terraform Apply (main)
+#      - name: Terraform Apply (main)
+ #       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+ #       run: terraform apply -auto-approve
+        
+      - name: Terraform destroy (main)
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -auto-approve
+        run: terraform destroy -auto-approve
+
